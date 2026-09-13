@@ -5,23 +5,23 @@ import logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 
-# ---------- EXTRACT ----------
+# EXTRACT
 def extract(file_path):
     df = pd.read_csv(file_path)
     logging.info(f"Data Extracted. Shape: {df.shape}")
     return df
 
 
-# ---------- TRANSFORM ----------
+# TRANSFORM
 def transform(df):
-    df = df.dropna()                       # missing values hatao
-    df = df.drop_duplicates()              # duplicate rows hatao
-    df.columns = df.columns.str.lower()    # column names lowercase
+    df = df.dropna()                      
+    df = df.drop_duplicates()              
+    df.columns = df.columns.str.lower()    
     logging.info(f"Data Transformed. Shape: {df.shape}")
     return df
 
 
-# ---------- LOAD ----------
+# LOAD 
 def load(df, db_name, table_name):
     conn = sqlite3.connect(db_name)
     df.to_sql(table_name, conn, if_exists="replace", index=False)
@@ -29,7 +29,7 @@ def load(df, db_name, table_name):
     logging.info(f"Data Loaded into {db_name} -> table: {table_name}")
 
 
-# ---------- RUN PIPELINE ----------
+#  RUN PIPELINE
 if __name__ == "__main__":
     try:
         df = extract("data.csv")
